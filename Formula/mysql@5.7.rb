@@ -105,6 +105,13 @@ class MysqlAT57 < Formula
       To connect run:
           mysql -uroot
     EOS
+    if datadir == (var/"mysql") && datadir.exist?
+      s += <<~EOS
+
+        #{datadir} from another install may interfere with a Homebrew-built
+        server starting up correctly.
+      EOS
+    end
     if (my_cnf = ["/etc/my.cnf", "/etc/mysql/my.cnf"].find { |x| File.exist? x })
       s += <<~EOS
 
