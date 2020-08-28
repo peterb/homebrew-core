@@ -1,3 +1,11 @@
+# Altering to something like this:
+#    if datadir_is_already_mysql5.7
+#      do_nothing
+#    elsif datadir_is_mysql8
+#      choose_mysql5.7_specific_datadir
+#    elsif there_is_no_datadir
+#      choose_mysql5.7_specific_datadir
+#    end
 class MysqlAT57 < Formula
   desc "Open source relational database management system"
   homepage "https://dev.mysql.com/doc/refman/5.7/en/"
@@ -28,7 +36,15 @@ class MysqlAT57 < Formula
   end
 
   def datadir
-    var/"mysql"
+    if datadir_is_mysql8?
+      var/"mysql57"
+    else
+      var/"mysql"
+    end
+  end
+
+  def datadir_is_mysql8?
+    var.glob("mysql/*.dblwr").any?
   end
 
   def install
@@ -86,16 +102,8 @@ class MysqlAT57 < Formula
   end
 
   def post_install
-    if datadir_is_already_mysql5.7
-      do_nothing
-    elsif datadir_is_mysql8
-      choose_mysql5.7_specific_datadir
-    elsif there_is_no_datadir
-      choose_mysql5.7_specific_datadir
-    end
-
     # Make sure the datadir exists
-    datadir.mkpath
+    datadir.mkpath #TODO check this wont cause any issues
     unless (datadir/"mysql/general_log.CSM").exist?
       ENV["TMPDIR"] = nil
       system bin/"mysqld", "--initialize-insecure", "--user=#{ENV["USER"]}",
@@ -113,13 +121,6 @@ class MysqlAT57 < Formula
       To connect run:
           mysql -uroot
     EOS
-    if datadir == (var/"mysql") && datadir.exist?
-      s += <<~EOS
-
-        #{datadir} from another install may interfere with a Homebrew-built
-        server starting up correctly.
-      EOS
-    end
     if (my_cnf = ["/etc/my.cnf", "/etc/mysql/my.cnf"].find { |x| File.exist? x })
       s += <<~EOS
 
