@@ -36,15 +36,13 @@ class MysqlAT57 < Formula
   end
 
   def datadir
-    if datadir_is_mysql8?
-      var/"mysql57"
-    else
-      var/"mysql"
-    end
+    return var/"mysql" if default_datadir_already_in_use_by_this_version?
+
+    var/"mysql57"
   end
 
-  def datadir_is_mysql8?
-    var.glob("mysql/*.dblwr").any?
+  def default_datadir_already_in_use_by_this_version?
+    var.glob("mysql/*.dblwr").empty? && !(var/"mysql/test").exist? && (var/"mysql").exist?
   end
 
   def install
