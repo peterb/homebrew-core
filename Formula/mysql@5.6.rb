@@ -22,7 +22,13 @@ class MysqlAT56 < Formula
   depends_on "openssl@1.1"
 
   def datadir
-    var/"mysql"
+    return var/"mysql" if default_datadir_already_in_use_by_this_version?
+
+    var/"mysql56"
+  end
+
+  def default_datadir_already_in_use_by_this_version?
+    (var/"mysql").exist? && var.glob("mysql/*.dblwr").empty? && (var/"mysql/test").exist?
   end
 
   def install
@@ -92,7 +98,6 @@ class MysqlAT56 < Formula
   end
 
   def post_install
-    # TODO: add same as in mysql5.7 formula
     # Make sure the datadir exists
     datadir.mkpath
     unless (datadir/"mysql/general_log.CSM").exist?
