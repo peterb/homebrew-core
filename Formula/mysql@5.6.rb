@@ -68,10 +68,8 @@ class MysqlAT56 < Formula
       system "./mysql-test-run.pl", "status", "--vardir=#{Dir.mktmpdir}"
     end
 
-    # TODO: Avoid references to the Homebrew shims directory or remove
-    # mysqlbug binary as it's deprecated in this version anyway
-    # maybe something like: inreplace bin/"mysqlbug", "a", "b"
-    # or simply deleting mysqlbug from the built files.
+    # Remove deprecated bug reporting tool
+    rm prefix/"bin/mysqlbug"
 
     # Remove the tests directory
     rm_rf prefix/"mysql-test"
