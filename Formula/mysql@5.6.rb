@@ -92,7 +92,7 @@ class MysqlAT56 < Formula
   end
 
   def post_install
-    # TODO add same as in mysql5.7 formula
+    # TODO: add same as in mysql5.7 formula
     # Make sure the datadir exists
     datadir.mkpath
     unless (datadir/"mysql/general_log.CSM").exist?

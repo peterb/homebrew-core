@@ -101,7 +101,7 @@ class MysqlAT57 < Formula
 
   def post_install
     # Make sure the datadir exists
-    datadir.mkpath #TODO check this wont cause any issues
+    datadir.mkpath # TODO: check this wont cause any issues
     unless (datadir/"mysql/general_log.CSM").exist?
       ENV["TMPDIR"] = nil
       system bin/"mysqld", "--initialize-insecure", "--user=#{ENV["USER"]}",
