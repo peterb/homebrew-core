@@ -1,11 +1,3 @@
-# Altering to something like this:
-#    if datadir_is_already_mysql5.7
-#      do_nothing
-#    elsif datadir_is_mysql8
-#      choose_mysql5.7_specific_datadir
-#    elsif there_is_no_datadir
-#      choose_mysql5.7_specific_datadir
-#    end
 class MysqlAT57 < Formula
   desc "Open source relational database management system"
   homepage "https://dev.mysql.com/doc/refman/5.7/en/"
