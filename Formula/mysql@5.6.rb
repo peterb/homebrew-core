@@ -27,6 +27,12 @@ class MysqlAT56 < Formula
     var/"mysql56"
   end
 
+  # TODO: Could also try running file on files in var/*.frm if they exist
+  # e.g.
+  # peter@Peters-iMac homebrew-core % file /usr/local/var/mysql56/mysql/columns_priv.frm
+  # /usr/local/var/mysql56/mysql/columns_priv.frm: MySQL table definition file Version 9,
+  # type MYISAM, MySQL version 50647
+  #
   def default_datadir_already_in_use_by_this_version?
     (var/"mysql").exist? && var.glob("mysql/*.dblwr").empty? && (var/"mysql/test").exist?
   end
