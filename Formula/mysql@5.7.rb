@@ -28,14 +28,7 @@ class MysqlAT57 < Formula
   end
 
   def datadir
-    return var/"mysql" if default_datadir_already_in_use_by_this_version?
-
     var/"mysql57"
-  end
-
-  # TODO: Could also try running file on files in var/*.frm if they exist
-  def default_datadir_already_in_use_by_this_version?
-    (var/"mysql").exist? && var.glob("mysql/*.dblwr").empty? && !(var/"mysql/test").exist?
   end
 
   def install
@@ -106,6 +99,9 @@ class MysqlAT57 < Formula
     s = <<~EOS
       We've installed your MySQL database without a root password. To secure it run:
           mysql_secure_installation
+
+      To avoid conflicts with other versions, the data directory location has been
+      set to mysql57.
 
       MySQL is configured to only allow connections from localhost by default
 
