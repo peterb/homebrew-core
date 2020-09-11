@@ -152,8 +152,7 @@ class MysqlAT57 < Formula
 
     port = free_port
     pid = fork do
-      exec bin/"mysqld", "--bind-address=127.0.0.1", "--datadir=#{dir}", "--port=#{port}",
-      "--socket=#{dir}/mysql.sock"
+      exec bin/"mysqld", "--bind-address=127.0.0.1", "--datadir=#{dir}", "--port=#{port}"
     end
     sleep 2
 
